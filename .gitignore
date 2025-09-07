@@ -1,0 +1,6 @@
+.coverage
+__pycache__/
+.ruff_cache__/
+.mypy_cache__/
+.vscode/
+.env

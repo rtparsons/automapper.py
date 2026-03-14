@@ -54,7 +54,7 @@ def test_dataclass_map_extra_destination_field(
     assert isinstance(destination, destination_dataclass_with_more_fields)
 
 
-def test_dataclass_map_extra_field_via_funcion_mapping(
+def test_dataclass_map_extra_field_via_function_mapping(
     source_dataclass: type,
     destination_dataclass_with_more_fields: type,
 ) -> None:

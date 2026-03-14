@@ -1,5 +1,4 @@
 import inspect
-
 from collections.abc import Callable
 from typing import Any, TypeVar
 
@@ -30,6 +29,8 @@ def clear_mappings() -> None:
 
 
 def _source_to_dict(obj: S) -> dict[str, Any]:
+    if isinstance(obj, dict):
+        return dict(obj)
     return {attr: getattr(obj, attr) for attr in dir(obj) if not attr.startswith("_")}
 
 
@@ -41,11 +42,7 @@ def _destination_properties(destination: type[T]) -> set[str]:
             if not field.startswith("_")
         }
     sig = inspect.signature(destination.__init__)
-    return {
-        param.name
-        for param in sig.parameters.values()
-        if param.name != "self"
-    }
+    return {param.name for param in sig.parameters.values() if param.name != "self"}
 
 
 def _apply_mappings(

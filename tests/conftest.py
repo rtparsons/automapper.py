@@ -1,3 +1,4 @@
+from collections.abc import Generator
 from dataclasses import dataclass
 
 import pytest
@@ -9,6 +10,11 @@ class SourceObject:
     def __init__(self, a: int, b: str) -> None:
         self.a = a
         self.b = b
+
+
+@pytest.fixture
+def source_dict() -> dict:
+    return {"a": 1, "b": "test"}
 
 
 @pytest.fixture
@@ -87,5 +93,6 @@ def destination_dataclass_with_more_fields() -> type:
 
 
 @pytest.fixture(autouse=True)
-def cleanup_mappings() -> None:
+def cleanup_mappings() -> Generator[None, None, None]:
+    yield
     mapper.clear_mappings()

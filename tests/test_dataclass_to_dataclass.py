@@ -1,49 +1,9 @@
-from dataclasses import dataclass
 from typing import Any
 
 import pytest
 
 from automapper import mapper
 
-
-@pytest.fixture
-def source_dataclass() -> type:
-    @dataclass
-    class Source:
-        a: int
-        b: str
-
-    return Source
-
-
-@pytest.fixture
-def destination_dataclass() -> type:
-    @dataclass
-    class Destination:
-        a: int
-        b: str
-
-    return Destination
-
-
-@pytest.fixture
-def destination_dataclass_with_less_fields() -> type:
-    @dataclass
-    class DestinationLessFields:
-        a: int
-
-    return DestinationLessFields
-
-
-@pytest.fixture
-def destination_dataclass_with_more_fields() -> type:
-    @dataclass
-    class DestinationMoreFields:
-        a: int
-        b: str
-        c: str
-
-    return DestinationMoreFields
 
 def test_dataclass_map(
     source_dataclass: type,

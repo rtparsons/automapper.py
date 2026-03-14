@@ -1,49 +1,8 @@
-from dataclasses import dataclass
 from typing import Any
 
 import pytest
 
 from automapper import mapper
-
-
-@pytest.fixture
-def source_dataclass() -> type:
-    @dataclass
-    class Source:
-        a: int
-        b: str
-
-    return Source
-
-
-@pytest.fixture
-def destination_object() -> type:
-    class Destination:
-        def __init__(self, a: int, b: str) -> None:
-            self.a = a
-            self.b = b
-
-    return Destination
-
-
-@pytest.fixture
-def destination_object_with_less_fields() -> type:
-    class DestinationLessFields:
-        def __init__(self, a: int) -> None:
-            self.a = a
-
-    return DestinationLessFields
-
-
-@pytest.fixture
-def destination_object_with_more_fields() -> type:
-    class DestinationMoreFields:
-        def __init__(self, a: int, b: str, c: str) -> None:
-            self.a = a
-            self.b = b
-            self.c = c
-
-    return DestinationMoreFields
 
 
 def test_dataclass_to_object_map(

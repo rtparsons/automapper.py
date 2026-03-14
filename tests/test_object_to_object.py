@@ -5,47 +5,6 @@ import pytest
 from automapper import mapper
 
 
-class Source:
-    def __init__(self, a: int, b: str) -> None:
-        self.a = a
-        self.b = b
-
-
-@pytest.fixture
-def source_object() -> type:
-    return Source
-
-
-@pytest.fixture
-def destination_object() -> type:
-    class Destination:
-        def __init__(self, a: int, b: str) -> None:
-            self.a = a
-            self.b = b
-
-    return Destination
-
-
-@pytest.fixture
-def destination_object_with_less_fields() -> type:
-    class DestinationLessFields:
-        def __init__(self, a: int) -> None:
-            self.a = a
-
-    return DestinationLessFields
-
-
-@pytest.fixture
-def destination_object_with_more_fields() -> type:
-    class DestinationMoreFields:
-        def __init__(self, a: int, b: str, c: str) -> None:
-            self.a = a
-            self.b = b
-            self.c = c
-
-    return DestinationMoreFields
-
-
 def test_object_map(
     source_object: type,
     destination_object: type,

@@ -1,3 +1,5 @@
+import inspect
+
 from collections.abc import Callable
 from typing import Any, TypeVar
 
@@ -32,10 +34,17 @@ def _source_to_dict(obj: S) -> dict[str, Any]:
 
 
 def _destination_properties(destination: type[T]) -> set[str]:
+    if hasattr(destination, "__dataclass_fields__"):
+        return {
+            field
+            for field in vars(destination)["__dataclass_fields__"]
+            if not field.startswith("_")
+        }
+    sig = inspect.signature(destination.__init__)
     return {
-        field
-        for field in vars(destination)["__dataclass_fields__"]
-        if not field.startswith("_")
+        param.name
+        for param in sig.parameters.values()
+        if param.name != "self"
     }
 
 

@@ -124,3 +124,35 @@ def test_dataclass_map_extra_field_via_funcion_mapping(
     assert destination.b == source.b
     assert destination.c == source.b.upper()
     assert isinstance(destination, destination_dataclass_with_more_fields)
+
+
+def test_dataclass_map_nonexistent_source_field(
+    source_dataclass: type,
+    destination_dataclass: type,
+) -> None:
+    source = source_dataclass(a=1, b="test")
+
+    mapper.add(
+        source_dataclass,
+        destination_dataclass,
+        {"c": "non_existent_field"},
+    )
+
+    with pytest.raises(AttributeError):
+        mapper.map(source, destination_dataclass)
+
+
+def test_dataclass_map_nonexistent_destination_field(
+    source_dataclass: type,
+    destination_dataclass: type,
+) -> None:
+    source = source_dataclass(a=1, b="test")
+
+    mapper.add(
+        source_dataclass,
+        destination_dataclass,
+        {"non_existent_field": "a"},
+    )
+
+    destination: Any = mapper.map(source, destination_dataclass)
+    assert not hasattr(destination, "non_existent_field")

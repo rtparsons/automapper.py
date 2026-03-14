@@ -48,8 +48,11 @@ def _apply_mappings(
     for dest, src_mapper in mapping.items():
         if callable(src_mapper):
             source_props[dest] = src_mapper(source)
-        else:
+        elif isinstance(src_mapper, str) and src_mapper in source_props:
             source_props[dest] = source_props[src_mapper]
+        else:
+            msg = f"Invalid mapping for destination property '{dest}'"
+            raise AttributeError(msg)
 
 
 def _map_properties(source: S, destination: type[T]) -> dict[str, Any]:

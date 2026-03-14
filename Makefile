@@ -10,5 +10,4 @@ format:
 	poetry run ruff format .
 
 test:
-	poetry run coverage run --source automapper -m pytest
-	poetry run coverage report -m
+	poetry run nox

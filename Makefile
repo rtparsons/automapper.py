@@ -1,5 +1,5 @@
 build:
-	poetry install
+	poetry install --all-extras
 
 lint:
 	poetry run ruff check .

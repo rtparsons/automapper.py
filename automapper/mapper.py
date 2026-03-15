@@ -31,6 +31,9 @@ def clear_mappings() -> None:
 def _source_to_dict(obj: S) -> dict[str, Any]:
     if isinstance(obj, dict):
         return dict(obj)
+    obj_class = obj if isinstance(obj, type) else type(obj)
+    if hasattr(obj_class, "model_fields"):
+        return obj.model_dump()  # type: ignore[attr-defined]
     return {attr: getattr(obj, attr) for attr in dir(obj) if not attr.startswith("_")}
 
 
@@ -41,6 +44,8 @@ def _destination_properties(destination: type[T]) -> set[str]:
             for field in vars(destination)["__dataclass_fields__"]
             if not field.startswith("_")
         }
+    if hasattr(destination, "model_fields"):
+        return set(destination.model_fields.keys())  # type: ignore[attr-defined]
     sig = inspect.signature(destination.__init__)
     return {param.name for param in sig.parameters.values() if param.name != "self"}
 

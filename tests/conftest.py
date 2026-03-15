@@ -2,6 +2,7 @@ from collections.abc import Generator
 from dataclasses import dataclass
 
 import pytest
+from pydantic import BaseModel
 
 from automapper import mapper
 
@@ -85,6 +86,42 @@ def destination_dataclass_with_less_fields() -> type:
 def destination_dataclass_with_more_fields() -> type:
     @dataclass
     class DestinationMoreFields:
+        a: int
+        b: str
+        c: str
+
+    return DestinationMoreFields
+
+
+@pytest.fixture
+def source_pydantic() -> type:
+    class Source(BaseModel):
+        a: int
+        b: str
+
+    return Source
+
+
+@pytest.fixture
+def destination_pydantic() -> type:
+    class Destination(BaseModel):
+        a: int
+        b: str
+
+    return Destination
+
+
+@pytest.fixture
+def destination_pydantic_with_less_fields() -> type:
+    class DestinationLessFields(BaseModel):
+        a: int
+
+    return DestinationLessFields
+
+
+@pytest.fixture
+def destination_pydantic_with_more_fields() -> type:
+    class DestinationMoreFields(BaseModel):
         a: int
         b: str
         c: str
